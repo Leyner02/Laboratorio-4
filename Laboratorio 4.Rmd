@@ -1,0 +1,63 @@
+---
+title: "Laboratorio 04"
+author: "Leyner Arias"
+date: "18/6/2020"
+output: html_document
+---
+##Tareas a realizar
+##Elabore un mapa web que contenga:
+
+## 1.(10%) Tres capas base tipo Tile.
+
+## 2. (20%) Dos capas raster: altitud y promedio de precipitación, provenientes de la base de datos WorldClim y recortadas para los límites de Costa Rica y en resolución de 30x30 segundos.
+
+## 3. (20%) Dos capas vectoriales correspondientes a los registros de presencia de las especies de aves Ara ambiguus (lapa verde) y Pharomachrus mocinno (quetzal).
+
+
+## 4. (20%) Un control de capas que permita activar y desactivar todas las capas.
+
+## 5.(20%) Leyendas para las dos capas raster. Elija con cuidado las paletas de colores de ambas capas.
+
+## 6.(10%) Un control de mapa de referencia (MiniMap).
+```{r}
+ library(leaflet)
+
+m <- leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery, group = "Imágenes de ESRI") %>% 
+  addProviderTiles(providers$Stamen.TonerLite, group = "Stamen Toner Lite") %>%
+  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap") %>%
+  addCircleMarkers(data = cr_ara_ambiguus,
+                   stroke = F,
+                   radius = 4,
+                   fillColor = 'green',
+                   fillOpacity = 1,
+                   group = "Ara ambiguus",
+                   popup = paste(cr_ara_ambiguus$locality, 
+                                 cr_ara_ambiguus$year, 
+                                 sep = '<br/>'
+                   )
+  ) %>%
+  addCircleMarkers(data = cr_pharomachrus_mocinno,
+                   stroke = F,
+                   radius = 4,
+                   fillColor = 'yellow',
+                   fillOpacity = 1,
+                   group = "Pharomachrus mocinno",
+                   popup = paste(cr_pharomachrus_mocinno$locality, 
+                                 cr_pharomachrus_mocinno$year, 
+                                 sep = '<br/>'
+                   )
+  ) %>%
+  addLayersControl(
+    baseGroups = c("OpenStreetMap", "Stamen Toner Lite", "Imágenes de ESRI"),
+    overlayGroups = c( "Ara ambiguus","Pharomachrus mocinno"),
+    options = layersControlOptions(collapsed = FALSE)    
+  ) %>%
+  addMiniMap(
+    toggleDisplay = TRUE,
+    position = "bottomleft",
+    tiles = providers$Stamen.TonerLite
+  )
+m
+
+```
