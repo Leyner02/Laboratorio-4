@@ -10,7 +10,9 @@ output: html_document
 ## 1.(10%) Tres capas base tipo Tile.
 
 ## 2. (20%) Dos capas raster: altitud y promedio de precipitación, provenientes de la base de datos WorldClim y recortadas para los límites de Costa Rica y en resolución de 30x30 segundos.
-
+```{r}
+plot(cr_precipitation)
+```
 ## 3. (20%) Dos capas vectoriales correspondientes a los registros de presencia de las especies de aves Ara ambiguus (lapa verde) y Pharomachrus mocinno (quetzal).
 
 
